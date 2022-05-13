@@ -76,10 +76,10 @@ function Modal() {
             playing
             muted={muted}
           />
-          <div className="absolute bottom-10 flex w-full items-center justify-between px-10">
+          <div className="absolute bottom-10 flex w-full items-center justify-between px-4 md:px-10">
             <div className="flex space-x-2">
-              <button className="flex items-center gap-x-2 rounded bg-white px-8 py-1 text-xl font-bold text-black transition hover:bg-[#e6e6e6]">
-                <FaPlay className="h-7 w-7 text-black" />
+              <button className="flex items-center gap-x-2 rounded bg-white px-6 text-xl font-bold text-black transition hover:bg-[#e6e6e6] md:px-8">
+                <FaPlay className="h-4 w-4 text-black md:h-7 md:w-7" />
                 Play
               </button>
               {/* <button className="modalButton" onClick={handleList}>
@@ -90,14 +90,14 @@ function Modal() {
                 )}
               </button> */}
               <button className="modalButton">
-                <ThumbUpIcon className="h-6 w-6" />
+                <ThumbUpIcon className="h-4 w-4 md:h-6 md:w-6" />
               </button>
             </div>
             <button className="modalButton" onClick={() => setMuted(!muted)}>
               {muted ? (
-                <VolumeOffIcon className="h-6 w-6" />
+                <VolumeOffIcon className="h-4 w-4 md:h-6 md:w-6" />
               ) : (
-                <VolumeUpIcon className="h-6 w-6" />
+                <VolumeUpIcon className="h-4 w-4 md:h-6 md:w-6" />
               )}
             </button>
           </div>
