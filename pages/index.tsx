@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useRecoilValue } from 'recoil'
-import { modalState } from '../atoms/modalAtom'
+import { modalState, movieState } from '../atoms/modalAtom'
 import Banner from '../components/Banner'
 import Header from '../components/Header'
 import Modal from '../components/Modal'
@@ -10,6 +10,8 @@ import Row from '../components/Row'
 import useAuth from '../hooks/useAuth'
 import { Movie } from '../typing'
 import requests from '../utils/requests'
+import Plans from '../components/Plans'
+import useList from '../hooks/useList'
 
 interface Props {
   netflixOriginals: Movie[]
@@ -32,10 +34,15 @@ const Home = ({
   topRated,
   trendingNow,
 }: Props) => {
-  const { loading } = useAuth()
+  const { user, loading } = useAuth()
   const showModal = useRecoilValue(modalState)
+  const subscriptions = false
+  const movie = useRecoilValue(movieState)
+  const list = useList(user?.uid)
 
   if (loading) return null
+
+  // if (!subscriptions) return <Plans />
 
   return (
     <div
@@ -47,6 +54,7 @@ const Home = ({
         <title>Nextflix</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <Header />
 
       <main className="relative pl-4 pb-24 lg:space-y-24 lg:pl-16">
@@ -56,7 +64,7 @@ const Home = ({
           <Row title="Top Rated" movies={topRated} />
           <Row title="Action Thrillers" movies={actionMovies} />
           {/* My List */}
-          {/* {list.length > 0 && <Row title="My List" movies={list} />} */}
+          {list.length > 0 && <Row title="My List" movies={list} />}
 
           <Row title="Comedies" movies={comedyMovies} />
           <Row title="Scary Movies" movies={horrorMovies} />
