@@ -29,7 +29,7 @@ function Modal() {
   const [showModal, setShodwModal] = useRecoilState(modalState)
   const [movie, setMovie] = useRecoilState(movieState)
   const [genres, setGenres] = useState<Genre[]>([])
-  const [trailer, setTrailer] = useState('')
+  const [trailer, setTrailer] = useState<string | string[]>('')
   const [muted, setMuted] = useState(false)
   const [addedToList, setAddedToList] = useState(false)
   const { user } = useAuth()
@@ -49,18 +49,19 @@ function Modal() {
     if (!movie) return
 
     async function fetchMovie() {
-      const data = await fetch(
-        `https://api.themoviedb.org/3/${
-          movie?.media_type === 'tv' ? 'tv' : 'movie'
-        }/${movie?.id}?api_key=${
-          process.env.NEXT_PUBLIC_API_KEY
-        }&language=en-US&append_to_response=videos`
-      ).then((response) => response.json())
+      const url = `https://api.themoviedb.org/3/${
+        movie?.media_type ? movie?.media_type : movie?.type
+      }/${movie?.id}?api_key=${
+        process.env.NEXT_PUBLIC_API_KEY
+      }&language=en-US&append_to_response=videos`
+
+      const data = await fetch(url).then((response) => response.json())
 
       if (data?.videos) {
         const index = data.videos.results.findIndex(
           (element: Element) => element.type === 'Trailer'
         )
+
         setTrailer(data.videos?.results[index]?.key)
       }
       if (data?.genres) {
@@ -149,7 +150,19 @@ function Modal() {
             style={{ position: 'absolute', top: '0', left: '0' }}
             playing
             muted={muted}
+            onError={(err) => {
+              toast(
+                `"${
+                  movie?.title || movie?.original_name
+                }" is not available in your region`,
+                {
+                  duration: 8000,
+                  style: toastStyle,
+                }
+              )
+            }}
           />
+
           <div className="absolute bottom-10 flex w-full items-center justify-between px-4 md:px-10">
             <div className="flex space-x-2">
               <button className="flex items-center gap-x-2 rounded bg-white px-6 text-xl font-bold text-black transition hover:bg-[#e6e6e6] md:px-8">

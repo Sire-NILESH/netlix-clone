@@ -9,7 +9,7 @@ export interface Genre {
 export interface Movie {
   title: string
   backdrop_path: string
-  media_type?: string
+  media_type?: string | string[]
   release_date?: string
   first_air_date: string
   genre_ids: number[]
@@ -23,6 +23,7 @@ export interface Movie {
   poster_path: string
   vote_average: number
   vote_count: number
+  type: string | string[] | undefined
 }
 
 export interface Element {

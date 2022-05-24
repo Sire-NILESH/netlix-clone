@@ -1,5 +1,6 @@
 import { BellIcon, SearchIcon } from '@heroicons/react/solid'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import useAuth from '../hooks/useAuth'
 import BasicMenu from './BasicMenu'
@@ -7,6 +8,7 @@ import BasicMenu from './BasicMenu'
 function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const { logout } = useAuth()
+  const router = useRouter()
 
   // upon scroll change the color of the header
   useEffect(() => {
@@ -35,16 +37,27 @@ function Header() {
             width={100}
             height={100}
             className="cursor-pointer object-contain"
+            onClick={() => router.push('/')}
           />
 
           <BasicMenu />
 
           <ul className="hidden space-x-4 md:flex">
-            <li className="headerLink">Home</li>
-            <li className="headerLink">TV Vhows</li>
-            <li className="headerLink">Movies</li>
-            <li className="headerLink">New & Popular</li>
-            <li className="headerLink">My List</li>
+            <li className="headerLink" onClick={() => router.push('/')}>
+              Home
+            </li>
+            <li className="headerLink" onClick={() => router.push('/tv')}>
+              TV shows
+            </li>
+            <li className="headerLink" onClick={() => router.push('/movie')}>
+              Movies
+            </li>
+            <li className="headerLink" onClick={() => router.push('/')}>
+              New & Popular
+            </li>
+            <li className="headerLink" onClick={() => router.push('/mylist')}>
+              My List
+            </li>
           </ul>
         </div>
       </div>

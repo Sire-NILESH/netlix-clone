@@ -2,10 +2,12 @@ import Button from '@mui/material/Button'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 
 export default function BasicMenu() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
+  const router = useRouter()
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget)
@@ -37,11 +39,11 @@ export default function BasicMenu() {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={handleClose}>Home</MenuItem>
-        <MenuItem onClick={handleClose}>TV Shows</MenuItem>
-        <MenuItem onClick={handleClose}>Movies</MenuItem>
-        <MenuItem onClick={handleClose}>New & Popular</MenuItem>
-        <MenuItem onClick={handleClose}>My List</MenuItem>
+        <MenuItem onClick={() => router.push('/')}>Home</MenuItem>
+        <MenuItem onClick={() => router.push('/tv')}>TV Shows</MenuItem>
+        <MenuItem onClick={() => router.push('/movie')}>Movies</MenuItem>
+        <MenuItem onClick={() => router.push('/')}>New & Popular</MenuItem>
+        <MenuItem onClick={() => router.push('/mylist')}>My List</MenuItem>
       </Menu>
     </div>
   )

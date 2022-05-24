@@ -9,7 +9,7 @@ interface Props {
   movie: Movie | DocumentData
 }
 
-function Thumbnail({ movie }: Props) {
+function Thumbnail({ movie, type }: Props) {
   const [showModal, setShowModal] = useRecoilState(modalState)
   const [currentMovie, setCurrentMovie] = useRecoilState(movieState)
   return (

@@ -7,7 +7,7 @@ import Modal from '../components/Modal'
 import Row from '../components/Row'
 import useAuth from '../hooks/useAuth'
 import { Movie } from '../typing'
-import { allRequests } from '../utils/requests'
+import { tvRequests } from '../utils/requests'
 import useList from '../hooks/useList'
 
 interface Props {
@@ -21,7 +21,7 @@ interface Props {
   documentaries: Movie[]
 }
 
-const Home = ({
+const tv = ({
   netflixOriginals,
   actionMovies,
   comedyMovies,
@@ -44,7 +44,7 @@ const Home = ({
       }`}
     >
       <Head>
-        <title>Nextflix</title>
+        <title>Nextflix | tv</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -54,14 +54,15 @@ const Home = ({
         <Banner netflixOriginals={netflixOriginals} />
         <section className="md:space-y-24">
           <Row title="Trending Now" movies={trendingNow} />
-          <Row title="Comedies" movies={comedyMovies} />
           <Row title="Top Rated" movies={topRated} />
-          <Row title="Documentaries" movies={documentaries} />
+          {/* <Row title="Action Thrillers" movies={actionMovies} /> */}
           {/* My List */}
           {list.length > 0 && <Row title="My List" movies={list} />}
-          <Row title="Action Thrillers" movies={actionMovies} />
-          <Row title="Scary Movies" movies={horrorMovies} />
-          <Row title="Romance Movies" movies={romanceMovies} />
+
+          <Row title="Comedies" movies={comedyMovies} />
+          {/* <Row title="Scary Movies" movies={horrorMovies} /> */}
+          <Row title="Romance" movies={romanceMovies} />
+          <Row title="Documentaries" movies={documentaries} />
         </section>
       </main>
       {showModal && <Modal />}
@@ -69,7 +70,7 @@ const Home = ({
   )
 }
 
-export default Home
+export default tv
 
 // server side rendering code
 export const getServerSideProps = async () => {
@@ -83,24 +84,22 @@ export const getServerSideProps = async () => {
     romanceMovies,
     documentaries,
   ] = await Promise.all([
-    fetch(allRequests.fetchNetflixOriginals).then((res) => res.json()),
-    fetch(allRequests.fetchTrending).then((res) => res.json()),
-    fetch(allRequests.fetchTopRated).then((res) => res.json()),
-    fetch(allRequests.fetchActionMovies).then((res) => res.json()),
-    fetch(allRequests.fetchComedyMovies).then((res) => res.json()),
-    fetch(allRequests.fetchHorrorMovies).then((res) => res.json()),
-    fetch(allRequests.fetchRomanceMovies).then((res) => res.json()),
-    fetch(allRequests.fetchDocumentaries).then((res) => res.json()),
+    fetch(tvRequests.fetchNetflixOriginals).then((res) => res.json()),
+    fetch(tvRequests.fetchTrending).then((res) => res.json()),
+    fetch(tvRequests.fetchTopRated).then((res) => res.json()),
+    fetch(tvRequests.fetchActionMovies).then((res) => res.json()),
+    fetch(tvRequests.fetchComedyMovies).then((res) => res.json()),
+    fetch(tvRequests.fetchHorrorMovies).then((res) => res.json()),
+    fetch(tvRequests.fetchRomanceMovies).then((res) => res.json()),
+    fetch(tvRequests.fetchDocumentaries).then((res) => res.json()),
   ])
 
   netflixOriginals.results.forEach((content: Movie) => (content.type = 'tv'))
-  trendingNow.results.forEach(
-    (content: Movie) => (content.type = content.media_type)
-  )
-  topRated.results.forEach((content: Movie) => (content.type = 'movie'))
-  actionMovies.results.forEach((content: Movie) => (content.type = 'movie'))
+  trendingNow.results.forEach((content: Movie) => (content.type = 'tv'))
+  topRated.results.forEach((content: Movie) => (content.type = 'tv'))
+  actionMovies.results.forEach((content: Movie) => (content.type = 'tv'))
   comedyMovies.results.forEach((content: Movie) => (content.type = 'tv'))
-  horrorMovies.results.forEach((content: Movie) => (content.type = 'movie'))
+  horrorMovies.results.forEach((content: Movie) => (content.type = 'tv'))
   romanceMovies.results.forEach((content: Movie) => (content.type = 'tv'))
   documentaries.results.forEach((content: Movie) => (content.type = 'tv'))
 

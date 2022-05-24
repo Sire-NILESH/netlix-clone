@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import useAuth from '../hooks/useAuth'
+import toast, { Toaster } from 'react-hot-toast'
 
 interface Inputs {
   email: string
@@ -12,6 +13,16 @@ interface Inputs {
 function Login() {
   const [login, setLogin] = useState(false)
   const { signIn, signUp } = useAuth()
+
+  const toastStyle = {
+    background: 'white',
+    color: 'black',
+    fontWeight: 'bold',
+    fontSize: '16px',
+    padding: '15px',
+    borderRadius: '9999px',
+    maxWidth: '1000px',
+  }
 
   const {
     register,
@@ -91,6 +102,7 @@ function Login() {
         >
           Sign In
         </button>
+        <Toaster position="bottom-center" />
         <div className="text-[gray]">
           New to Netflix?{' '}
           <button

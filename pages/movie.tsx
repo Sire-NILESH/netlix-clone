@@ -1,13 +1,13 @@
 import Head from 'next/head'
 import { useRecoilValue } from 'recoil'
-import { modalState } from '../atoms/modalAtom'
+import { modalState, movieState } from '../atoms/modalAtom'
 import Banner from '../components/Banner'
 import Header from '../components/Header'
 import Modal from '../components/Modal'
 import Row from '../components/Row'
 import useAuth from '../hooks/useAuth'
 import { Movie } from '../typing'
-import { allRequests } from '../utils/requests'
+import { movieRequests } from '../utils/requests'
 import useList from '../hooks/useList'
 
 interface Props {
@@ -33,6 +33,8 @@ const Home = ({
 }: Props) => {
   const { user, loading } = useAuth()
   const showModal = useRecoilValue(modalState)
+  // const subscriptions = false
+  // const movie = useRecoilValue(movieState)
   const list = useList(user?.uid)
 
   if (loading) return null
@@ -44,7 +46,7 @@ const Home = ({
       }`}
     >
       <Head>
-        <title>Nextflix</title>
+        <title>Nextflix | Movies</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -54,14 +56,15 @@ const Home = ({
         <Banner netflixOriginals={netflixOriginals} />
         <section className="md:space-y-24">
           <Row title="Trending Now" movies={trendingNow} />
-          <Row title="Comedies" movies={comedyMovies} />
           <Row title="Top Rated" movies={topRated} />
-          <Row title="Documentaries" movies={documentaries} />
+          <Row title="Action Thrillers" movies={actionMovies} />
           {/* My List */}
           {list.length > 0 && <Row title="My List" movies={list} />}
-          <Row title="Action Thrillers" movies={actionMovies} />
+
+          <Row title="Comedies" movies={comedyMovies} />
           <Row title="Scary Movies" movies={horrorMovies} />
           <Row title="Romance Movies" movies={romanceMovies} />
+          <Row title="Documentaries" movies={documentaries} />
         </section>
       </main>
       {showModal && <Modal />}
@@ -83,26 +86,24 @@ export const getServerSideProps = async () => {
     romanceMovies,
     documentaries,
   ] = await Promise.all([
-    fetch(allRequests.fetchNetflixOriginals).then((res) => res.json()),
-    fetch(allRequests.fetchTrending).then((res) => res.json()),
-    fetch(allRequests.fetchTopRated).then((res) => res.json()),
-    fetch(allRequests.fetchActionMovies).then((res) => res.json()),
-    fetch(allRequests.fetchComedyMovies).then((res) => res.json()),
-    fetch(allRequests.fetchHorrorMovies).then((res) => res.json()),
-    fetch(allRequests.fetchRomanceMovies).then((res) => res.json()),
-    fetch(allRequests.fetchDocumentaries).then((res) => res.json()),
+    fetch(movieRequests.fetchNetflixOriginals).then((res) => res.json()),
+    fetch(movieRequests.fetchTrending).then((res) => res.json()),
+    fetch(movieRequests.fetchTopRated).then((res) => res.json()),
+    fetch(movieRequests.fetchActionMovies).then((res) => res.json()),
+    fetch(movieRequests.fetchComedyMovies).then((res) => res.json()),
+    fetch(movieRequests.fetchHorrorMovies).then((res) => res.json()),
+    fetch(movieRequests.fetchRomanceMovies).then((res) => res.json()),
+    fetch(movieRequests.fetchDocumentaries).then((res) => res.json()),
   ])
 
-  netflixOriginals.results.forEach((content: Movie) => (content.type = 'tv'))
-  trendingNow.results.forEach(
-    (content: Movie) => (content.type = content.media_type)
-  )
+  netflixOriginals.results.forEach((content: Movie) => (content.type = 'movie'))
+  trendingNow.results.forEach((content: Movie) => (content.type = 'movie'))
   topRated.results.forEach((content: Movie) => (content.type = 'movie'))
   actionMovies.results.forEach((content: Movie) => (content.type = 'movie'))
-  comedyMovies.results.forEach((content: Movie) => (content.type = 'tv'))
+  comedyMovies.results.forEach((content: Movie) => (content.type = 'movie'))
   horrorMovies.results.forEach((content: Movie) => (content.type = 'movie'))
-  romanceMovies.results.forEach((content: Movie) => (content.type = 'tv'))
-  documentaries.results.forEach((content: Movie) => (content.type = 'tv'))
+  romanceMovies.results.forEach((content: Movie) => (content.type = 'movie'))
+  documentaries.results.forEach((content: Movie) => (content.type = 'movie'))
 
   return {
     props: {
