@@ -46,7 +46,7 @@ const Home = ({
       }`}
     >
       <Head>
-        <title>Nextflix | Movies</title>
+        <title>Netflix | Movies</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

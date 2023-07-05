@@ -44,7 +44,7 @@ const Home = ({
       }`}
     >
       <Head>
-        <title>Nextflix</title>
+        <title>Netflix</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -94,7 +94,7 @@ export const getServerSideProps = async () => {
   ])
 
   netflixOriginals.results.forEach((content: Movie) => (content.type = 'tv'))
-  trendingNow.results.forEach(
+  trendingNow.results?.forEach(
     (content: Movie) => (content.type = content.media_type)
   )
   topRated.results.forEach((content: Movie) => (content.type = 'movie'))

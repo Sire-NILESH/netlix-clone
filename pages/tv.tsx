@@ -44,7 +44,7 @@ const tv = ({
       }`}
     >
       <Head>
-        <title>Nextflix | tv</title>
+        <title>Netflix | tv</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

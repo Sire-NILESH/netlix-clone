@@ -22,7 +22,7 @@ const mylist = () => {
       }`}
     >
       <Head>
-        <title>Nextflix | mylist</title>
+        <title>Netflix | mylist</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
