@@ -175,16 +175,16 @@ function Modal() {
           )}
 
           <div className="absolute bottom-4 flex w-full items-center justify-between px-4 md:bottom-10 md:px-10">
-            <div className="flex space-x-2">
-              <button className="flex items-center gap-x-2 rounded bg-white px-6 text-xl font-bold text-black transition hover:bg-[#e6e6e6] md:px-8">
+            <div className="flex space-x-4 md:space-x-2">
+              <button className="flex items-center gap-x-2 rounded bg-white px-4 text-base font-bold text-black transition hover:bg-[#e6e6e6] md:px-8 md:text-xl">
                 <FaPlay className="h-4 w-4 text-black md:h-7 md:w-7" />
                 Play
               </button>
               <button className="modalButton" onClick={handleList}>
                 {addedToList ? (
-                  <CheckIcon className="h-7 w-7" />
+                  <CheckIcon className="h-4 w-4 md:h-7 md:w-7" />
                 ) : (
-                  <PlusIcon className="h-7 w-7" />
+                  <PlusIcon className="h-4 w-4 md:h-7 md:w-7" />
                 )}
               </button>
               <button className="modalButton">
